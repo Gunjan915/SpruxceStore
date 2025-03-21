@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurum Walls</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0a;
+            color: #f0e6d2;
+            line-height: 1.6;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.9);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+        nav .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #c9a96e;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+        nav ul li {
+            margin-left: 25px;
+        }
+        nav ul li a {
+            color: #f0e6d2;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        nav ul li a:hover {
+            color: #c9a96e;
+        }
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: #c9a96e;
+            cursor: pointer;
+        }
+        section {
+            display: none;
+            padding: 80px 20px;
+            min-height: 100vh;
+            background: #121212;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(20px);
+        }
+        section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #home {
+            background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1920') no-repeat center/cover;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        #home::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        #home .content {
+            z-index: 1;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: #c9a96e;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 40px;
+            background: #c9a96e;
+            color: #0a0a0a;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #a88b50;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #1c1c1c;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 15px;
+        }
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #f0e6d2;
+        }
+        .card p {
+            color: #c9a96e;
+            margin: 5px 0;
+        }
+        .card .btn-small {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        .premium-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #c9a96e;
+            color: #0a0a0a;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border-radius: 5px;
+        }
+        .checkout-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #1c1c1c;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        .order-summary {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+        .order-total {
+            font-size: 1.1rem;
+            color: #c9a96e;
+            margin-top: 10px;
+        }
+        .checkout-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            background: #2a2a2a;
+            border: none;
+            border-radius: 5px;
+            color: #f0e6d2;
+        }
+        .payment-options {
+            margin-bottom: 20px;
+        }
+        .payment-options label {
+            display: block;
+            margin: 5px 0;
+        }
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .trust-badges img {
+            height: 25px;
+        }
+        .back-btn {
+            background: #2a2a2a;
+            color: #c9a96e;
+            padding: 10px 30px;
+        }
+        .back-btn:hover {
+            background: #3a3a3a;
+        }
+        @media (max-width: 768px) {
+            nav {
+                padding: 10px 15px;
+            }
+            nav .logo {
+                font-size: 1.5rem;
+            }
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 10, 0.9);
+                padding: 15px 0;
+            }
+            nav ul.active {
+                display: flex;
+            }
+            nav ul li {
+                margin: 10px 0;
+                text-align: center;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 10px 30px;
+                font-size: 0.9rem;
+            }
+            section {
+                padding: 60px 15px;
+            }
+            .checkout-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Aurum Walls</div>
+        <span class="menu-toggle">☰</span>
+        <ul>
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#collections" class="nav-link">Collections</a></li>
+            <li><a href="#premium" class="nav-link">Premium</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="active">
+        <div class="content">
+            <h1>Aurum Walls</h1>
+            <p>Luxury wallpapers crafted for the elite. Elevate your space.</p>
+            <a href="#collections" class="btn nav-link">Shop Now</a>
+        </div>
+    </section>
+
+    <section id="collections">
+        <h1>Collections</h1>
+        <div class="gallery">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1513506003901-1e6a229e77f8?q=80&w=400" alt="Sable Rose">
+                <div class="card-content">
+                    <h3>Sable Rose</h3>
+                    <p>$95.00</p>
+                    <a href="#checkout" class="btn btn-small buy-btn" data-item="Sable Rose" data-price="95.00">Buy Now</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1519961655809-5fa156de4ab6?q=80&w=400" alt="Obsidian Luxe">
+                <div class="premium-tag">Premium</div>
+                <div class="card-content">
+                    <h3>Obsidian Luxe</h3>
+                    <p>$145.00</p>
+                    <a href="#checkout" class="btn btn-small buy-btn" data-item="Obsidian Luxe" data-price="145.00">Buy Now</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=400" alt="Jade Serenity">
+                <div class="card-content">
+                    <h3>Jade Serenity</h3>
+                    <p>$110.00</p>
+                    <a href="#checkout" class="btn btn-small buy-btn" data-item="Jade Serenity" data-price="110.00">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="premium">
+        <h1>Premium Membership</h1>
+        <p>Join our exclusive membership for $25/month. Get rare designs and priority access.</p>
+        <a href="#checkout" class="btn buy-btn" data-item="Premium Membership" data-price="25.00">Join Now</a>
+    </section>
+
+    <section id="contact">
+        <h1>Contact</h1>
+        <p>Email: <a href="mailto:spruxcebussi@gmail.com" style="color: #c9a96e;">spruxcebussi@gmail.com</a></p>
+    </section>
+
+    <section id="checkout">
+        <div class="checkout-container">
+            <h1>Checkout</h1>
+            <div class="order-summary">
+                <div class="order-item">
+                    <span id="item-name">Item Name</span>
+                    <span id="item-price">$0.00</span>
+                </div>
+                <div class="order-total">
+                    Total: <span id="total-price">$0.00</span>
+                </div>
+            </div>
+            <div class="payment-options">
+                <h3>Payment Method</h3>
+                <label>
+                    <input type="radio" name="payment" value="credit-card" checked>
+                    Credit Card
+                </label>
+                <label>
+                    <input type="radio" name="payment" value="paypal">
+                    PayPal
+                </label>
+                <label>
+                    <input type="radio" name="payment" value="crypto">
+                    Cryptocurrency
+                </label>
+            </div>
+            <form class="checkout-form">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="text" placeholder="Card Number" required>
+                <input type="text" placeholder="MM/YY" required>
+                <input type="text" placeholder="CVV" required>
+                <button type="submit" class="btn">Pay Now</button>
+            </form>
+            <div class="trust-badges">
+                <img src="https://via.placeholder.com/50x25?text=Visa" alt="Visa">
+                <img src="https://via.placeholder.com/50x25?text=MC" alt="Mastercard">
+            </div>
+            <a href="#collections" class="btn back-btn nav-link">Back</a>
+        </div>
+    </section>
+
+    <section id="thank-you">
+        <h1>Thank You!</h1>
+        <p>Your purchase has been completed successfully.</p>
+        <a href="#home" class="btn nav-link">Back to Home</a>
+    </section>
+
+    <script>
+        const toggle = document.querySelector('.menu-toggle');
+        const menu = document.querySelector('nav ul');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const buyButtons = document.querySelectorAll('.buy-btn');
+        const sections = document.querySelectorAll('section');
+        const itemName = document.querySelector('#item-name');
+        const itemPrice = document.querySelector('#item-price');
+        const totalPrice = document.querySelector('#total-price');
+
+        function showSection(id) {
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            const target = document.querySelector(id);
+            if (target) {
+                target.classList.add('active');
+            }
+            menu.classList.remove('active');
+            toggle.textContent = '☰';
+            window.scrollTo(0, 0);
+        }
+
+        toggle.addEventListener('click', () => {
+            menu.classList.toggle('active');
+            toggle.textContent = menu.classList.contains('active') ? '✕' : '☰';
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = link.getAttribute('href');
+                showSection(target);
+            });
+        });
+
+        buyButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const item = button.getAttribute('data-item');
+                const price = button.getAttribute('data-price');
+                itemName.textContent = item;
+                itemPrice.textContent = `$${price}`;
+                totalPrice.textContent = `$${price}`;
+                showSection('#checkout');
+            });
+        });
+
+        document.querySelector('.checkout-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showSection('#thank-you');
+        });
+
+        // Start on Home with animation
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('#home');
+        });
+    </script>
+</body>
+</html>
